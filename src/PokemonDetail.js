@@ -6,6 +6,13 @@ class PokemonDetail extends Component {
     this.state = {};
   }
 
+  // const [pokemon, setPokemon] = useState(null);
+
+  // useEffect(() => {
+  //  // define loadPokemon
+  //  loadPokemon();
+  // }, [props.match.params.id])
+
   async componentDidMount() {
     await this.loadPokemon();
   }
@@ -23,6 +30,8 @@ class PokemonDetail extends Component {
     const id = this.props.match.params.id;
     const response = await fetch(`/api/pokemon/${id}`);
     if (response.ok) {
+      // const data = await response.json()
+      // setPokemon(data)
       this.setState({
         pokemon: await response.json(),
       });
