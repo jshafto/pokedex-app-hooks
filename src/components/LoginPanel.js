@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../store/authentication';
 
-const LoginPanel = ({ currentUserId, login }) => {
+// { currentUserId, login }
+
+const LoginPanel = () => {
+  const currentUserId = useSelector(state => state.authentication.id)
   const [email, setEmail] = useState('demo@example.com');
   const [password, setPassword] = useState('password');
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password);
+    dispatch(login(email, password));
   };
 
   const updateEmail = e => setEmail(e.target.value);
@@ -38,21 +42,5 @@ const LoginPanel = ({ currentUserId, login }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    currentUserId: state.authentication.id,
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    login: (email, password) => dispatch(login(email, password))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(
-  LoginPanel
-);
+export default LoginPanel;

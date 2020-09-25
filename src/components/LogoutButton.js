@@ -1,10 +1,14 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { logout } from '../store/authentication';
 
-const LogoutButton = ({ loggedOut, logout }) => {
-  const handleClick = () => logout();
+const LogoutButton = () => {
+  // const handleClick = () => logout();
+  const loggedOut = useSelector(state => !state.authentication.id);
+  const dispatch = useDispatch();
+  const handleClick = () => dispatch(logout());
 
   if (loggedOut) {
     return <Redirect to="/login" />;
@@ -17,22 +21,5 @@ const LogoutButton = ({ loggedOut, logout }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    loggedOut: !state.authentication.id,
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch(logout()),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(
-  LogoutButton
-);
-
+export default LogoutButton;

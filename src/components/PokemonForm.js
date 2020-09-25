@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createPokemon, getPokemonTypes, hideForm } from '../store/pokemon';
+import { useHistory } from 'react-router-dom';
 
-const PokemonForm = ({
-  pokeTypes,
-  getPokemonTypes,
-  createPokemon,
-  hideForm,
-  history
-}) => {
+// {
+//   pokeTypes,
+//   getPokemonTypes,
+//   createPokemon,
+//   hideForm,
+//   history
+// }
+const PokemonForm = () => {
   const [attack, setAttack] = useState('');
   const [defense, setDefense] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -25,8 +27,12 @@ const PokemonForm = ({
   const updateMove1 = (e) => setMove1(e.target.value);
   const updateMove2 = (e) => setMove2(e.target.value);
 
+  const pokeTypes = useSelector(state => state.pokemon.types);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   useEffect(() => {
-    getPokemonTypes();
+    dispatch(getPokemonTypes());
   }, [getPokemonTypes]);
 
   useEffect(() => {
@@ -47,13 +53,13 @@ const PokemonForm = ({
       moves: [move1, move2],
     };
 
-    const res = await createPokemon(payload);
+    const res = await dispatch(createPokemon(payload));
     if (res.ok) history.push(`/pokemon/${res.data.id}`);
   };
 
   const handleCancelClick = (e) => {
     e.preventDefault();
-    hideForm();
+    dispatch(hideForm());
   };
 
   return (
@@ -107,23 +113,24 @@ const PokemonForm = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    pokeTypes: state.pokemon.types,
-  };
-}
+// const mapStateToProps = state => {
+//   return {
+//     pokeTypes: state.pokemon.types,
+//   };
+// }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createPokemon: data => dispatch(createPokemon(data)),
-    getPokemonTypes: () => dispatch(getPokemonTypes()),
-    hideForm: () => dispatch(hideForm()),
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     createPokemon: data => dispatch(createPokemon(data)),
+//     getPokemonTypes: () => dispatch(getPokemonTypes()),
+//     hideForm: () => dispatch(hideForm()),
+//   }
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(
-  PokemonForm
-);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(
+//   PokemonForm
+// );
+export default PokemonForm;

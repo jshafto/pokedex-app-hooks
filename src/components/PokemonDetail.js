@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { getOnePokemon } from '../store/pokemon';
+import {useParams} from 'react-router-dom';
 
-const PokemonDetail = ({ match, pokemon, getOnePokemon }) => {
+// { match, pokemon, getOnePokemon }
+const PokemonDetail = () => {
+  const pokemon = useSelector(state => state.pokemon.current);
+  const dispatch = useDispatch();
+  const {id} = useParams()
+
   useEffect(() => {
-    getOnePokemon(match.params.id);
-  }, [getOnePokemon, match]);
+    dispatch(getOnePokemon(id));
+  }, [getOnePokemon, id]);
 
   if (!pokemon) {
     return null;
@@ -66,21 +72,23 @@ const PokemonDetail = ({ match, pokemon, getOnePokemon }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    pokemon: state.pokemon.current,
-  };
-}
+// const mapStateToProps = state => {
+//   return {
+//     pokemon: state.pokemon.current,
+//   };
+// }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getOnePokemon: id => dispatch(getOnePokemon(id))
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getOnePokemon: id => dispatch(getOnePokemon(id))
+//   }
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(
-  PokemonDetail
-);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(
+//   PokemonDetail
+// );
+
+export default PokemonDetail;
