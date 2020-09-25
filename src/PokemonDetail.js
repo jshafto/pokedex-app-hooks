@@ -1,45 +1,45 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect} from 'react';
 
-class PokemonDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+// class PokemonDetail extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {};
+//   }
 
-  // const [pokemon, setPokemon] = useState(null);
+const PokemonDetail = (props) => {
+  const [pokemon, setPokemon] = useState(null);
 
-  // useEffect(() => {
-  //  // define loadPokemon
-  //  loadPokemon();
-  // }, [props.match.params.id])
+  useEffect(() => {
+   // define loadPokemon
+   const loadPokemon = async() => {
+     const id = props.match.params.id;
+     const response = await fetch(`/api/pokemon/${id}`);
+     if (response.ok) {
+       const data = await response.json()
+       setPokemon(data)
 
-  async componentDidMount() {
-    await this.loadPokemon();
-  }
+      //  this.setState({
+      //    pokemon: await response.json(),
+      //  });
+     }
+   }
+   loadPokemon();
+  }, [props.match.params.id]);
 
-  async componentDidUpdate(oldProps) {
-    const oldId = Number.parseInt(oldProps.match.params.id);
-    const newId = Number.parseInt(this.props.match.params.id);
-    if (oldId === newId) {
-      return;
-    }
-    await this.loadPokemon();
-  }
+  // async componentDidMount() {
+  //   await this.loadPokemon();
+  // }
 
-  async loadPokemon() {
-    const id = this.props.match.params.id;
-    const response = await fetch(`/api/pokemon/${id}`);
-    if (response.ok) {
-      // const data = await response.json()
-      // setPokemon(data)
-      this.setState({
-        pokemon: await response.json(),
-      });
-    }
-  }
+  // async componentDidUpdate(oldProps) {
+  //   const oldId = Number.parseInt(oldProps.match.params.id);
+  //   const newId = Number.parseInt(this.props.match.params.id);
+  //   if (oldId === newId) {
+  //     return;
+  //   }
+  //   await this.loadPokemon();
+  // }
 
-  render() {
-    const { pokemon } = this.state;
+
     if (!pokemon) {
       return null;
     }
@@ -97,7 +97,7 @@ class PokemonDetail extends Component {
         </div>
       </div>
     )
-  }
+
 }
 
 export default PokemonDetail;

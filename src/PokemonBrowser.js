@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink, Route } from 'react-router-dom';
 import PokemonDetail from './PokemonDetail';
 import LogoutButton from './LogoutButton';
 
-class PokemonBrowser extends Component {
-  render() {
-    const { pokemon } = this.props;
+// class PokemonBrowser extends Component {
+const PokemonBrowser = props => {
+    const { pokemon } = props;
     if (!pokemon) {
       return null;
     }
@@ -31,6 +31,6 @@ class PokemonBrowser extends Component {
       </main>
     );
   }
-}
+
 
 export default PokemonBrowser;
