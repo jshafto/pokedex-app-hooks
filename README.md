@@ -6,5 +6,5 @@ Any trainer's best friend! This Pokedex app will allow registered users to brows
 
 ## Project Checklist
 - [x] State-based hooks refactor
-- [ ] Redux hooks refactor
+- [x] Redux hooks refactor
 - [ ] Context hooks refactor
